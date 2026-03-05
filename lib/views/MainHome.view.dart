@@ -79,7 +79,7 @@ class _MainHomeViewState extends State<MainHomeView> {
                     ),
                   ),
                   TextSpan(
-                    text: ' ${mainApp.profileData.level}',
+                    text: ' ${mainApp.profileData!.level}',
                     style: GoogleFonts.openSans(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -135,7 +135,7 @@ class _MainHomeViewState extends State<MainHomeView> {
             Image.asset(scale: 8.0, 'assets/images/Fire.png'),
           ],
         ),
-        const SizedBox(height: 40.0),
+        SizedBox(height: size.height / 24),
         Stack(
           children: [
             Container(
@@ -156,7 +156,7 @@ class _MainHomeViewState extends State<MainHomeView> {
             ),
           ],
         ),
-        SizedBox(height: 10.0),
+        SizedBox(height: size.height / 64),
         MainStatusComponent()
       ],
     );

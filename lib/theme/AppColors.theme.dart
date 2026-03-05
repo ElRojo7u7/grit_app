@@ -5,6 +5,9 @@ class AppColors {
   final Color primary;
   final Color onPrimary;
 
+  final Color secondary;
+  final Color onSecondary;
+
   // Surfaces
   final Color background;
   final Color surface;
@@ -22,6 +25,8 @@ class AppColors {
   const AppColors({
     required this.primary,
     required this.onPrimary,
+    required this.secondary,
+    required this.onSecondary,
     required this.background,
     required this.surface,
     required this.surfaceVariant,

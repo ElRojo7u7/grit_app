@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grit/components/BottomNavigator.component.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
 
 class TertiaryLayout extends StatefulWidget {
@@ -12,6 +13,7 @@ class TertiaryLayout extends StatefulWidget {
 class _TertiaryLayoutState extends State<TertiaryLayout> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -33,29 +35,9 @@ class _TertiaryLayoutState extends State<TertiaryLayout> {
           ),
           Column(
             children: [
-              const SizedBox(height: 50.0),
-              widget.child,
-              Spacer(),
-              // TODO: Implementar barra de inicio
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: Colors.grey, // The border color
-              //       width: 2.0, // The border width
-              //     ),
-              //     borderRadius: BorderRadius.only(
-              //       topRight: Radius.circular(70.0),
-              //       topLeft: Radius.circular(70.0),
-              //     ),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       Image.asset(scale: 15.0, 'assets/images/house.png')
-              //       Text(data)
-              //     ],
-              //   ),
-              // )
+              SizedBox(height: size.height / 18),
+              Expanded(child: widget.child),
+              BottomNavigatorComponent(),
             ],
           ),
         ],

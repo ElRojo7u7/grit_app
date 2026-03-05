@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grit/components/BodyView.component.dart';
 import 'package:grit/providers/MainApp.provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +15,8 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
   @override
   Widget build(BuildContext context) {
     final mainApp = Provider.of<MainAppProvider>(context);
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
-      padding: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(40.0),
-      ),
+    final size = MediaQuery.of(context).size;
+    return BodyViewComponent(
       child: Column(
         children: [
           SizedBox(height: 20.0),
@@ -63,41 +59,16 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Image.asset(scale: 2, 'assets/images/Hammer.png'),
               const SizedBox(width: 15.0),
               Expanded(
                 child: TextField(
                   obscureText: false,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: '30 minutos de ejercicio',
+                    hintText: 'Escribe tu objetivo',
                   ),
                 ),
               ),
-              // RichText(
-              //   textAlign: TextAlign.left,
-              //   text: TextSpan(
-              //     text: '',
-              //     style: GoogleFonts.openSans(
-              //       color: Colors.black,
-              //       fontSize: 25.0,
-              //     ),
-              //     children: [
-              //       // TextSpan(
-              //       //   text: '30',
-              //       //   style: GoogleFonts.openSans(
-              //       //     fontWeight: FontWeight.bold,
-              //       //   ),
-              //       // ),
-              //       // TextSpan(
-              //       //   text: ' minutos de ejercicio',
-              //       //   style: GoogleFonts.openSans(
-              //       //     color: Colors.black,
-              //       //   ),
-              //       // ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
           SizedBox(height: 20.0),
@@ -122,37 +93,50 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  Image.asset(scale: 6, 'assets/images/task.jpeg'),
-                  Text(
-                    'Días\nCompletados',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14.0,
+              SizedBox(
+                width: size.width * 0.24,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.13,
+                      child: Image.asset(
+                          fit: BoxFit.contain, 'assets/images/task.jpeg'),
                     ),
-                  ),
-                  Text(
-                    '${mainApp.profileData.level == 0 ? 0 : mainApp.profileData.level}',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 22.0,
-                      color: Colors.red,
+                    Text(
+                      'Días\nCompletados',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                        fontWeight: FontWeight.w900,
+                        fontSize: size.width / 30,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      '${mainApp.profileData!.level == 0 ? 0 : mainApp.profileData!.level}',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                        fontWeight: FontWeight.w900,
+                        fontSize: size.width / 19,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Column(
                 children: [
-                  Image.asset(scale: 1.7, 'assets/images/insign.webp'),
+                  SizedBox(
+                    width: size.width * 0.13,
+                    child: Image.asset(
+                      fit: BoxFit.cover,
+                      'assets/images/insign.webp',
+                    ),
+                  ),
                   Text(
                     'Insignias\nObtenidas',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: 14.0,
+                      fontSize: size.width / 30,
                     ),
                   ),
                   Text(
@@ -160,7 +144,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: 22.0,
+                      fontSize: size.width / 19,
                       color: Colors.red,
                     ),
                   ),
@@ -169,13 +153,19 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
               Column(
                 children: [
                   const SizedBox(height: 10.0),
-                  Image.asset(scale: 1.5, 'assets/images/diploma.webp'),
+                  SizedBox(
+                    width: size.width * 0.13,
+                    child: Image.asset(
+                      fit: BoxFit.cover,
+                      'assets/images/diploma.webp',
+                    ),
+                  ),
                   Text(
-                    'Insignias\nObtenidas',
+                    'Diplomas\nObtenidos',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: 14.0,
+                      fontSize: size.width / 30,
                     ),
                   ),
                   Text(
@@ -183,7 +173,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: 22.0,
+                      fontSize: size.width / 19,
                       color: Colors.red,
                     ),
                   ),
@@ -215,7 +205,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -5,11 +5,13 @@ import 'package:grit/layouts/Main.layout.dart';
 import 'package:grit/layouts/Secondary.layout.dart';
 import 'package:grit/layouts/Tertiary.layout.dart';
 import 'package:grit/providers/MainApp.provider.dart';
-import 'package:grit/providers/RouteProvider.provider.dart';
+import 'package:grit/providers/AvatarOptions.provider.dart';
 import 'package:grit/views/ChooseProfile.view.dart';
 import 'package:grit/views/Desc.view.dart';
 import 'package:grit/views/Home.view.dart';
 import 'package:grit/views/MainHome.view.dart';
+import 'package:grit/views/ProfileSetup.view.dart';
+import 'package:grit/views/Progress.view.dart';
 import 'package:grit/views/Streak.view.dart';
 import 'package:grit/views/StrengthTest.view.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RouteProvider()),
+        ChangeNotifierProvider(create: (_) => AvatarProvider()),
         ChangeNotifierProvider(create: (_) => MainAppProvider()),
       ],
       child: const MainApp(),
@@ -60,6 +62,14 @@ final router = GoRouter(
               GoRoute(
                 path: '/main/home',
                 builder: (context, state) => const MainHomeView(),
+              ),
+              GoRoute(
+                path: '/main/profile',
+                builder: (context, state) => const ProfileSetupView(),
+              ),
+              GoRoute(
+                path: '/main/progress',
+                builder: (context, state) => const ProgressView(),
               ),
             ]),
         ShellRoute(

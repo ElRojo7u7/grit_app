@@ -75,7 +75,7 @@ class _HomeViewState extends State<HomeView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Welcome to 21\n DAYS on GRIT',
+                  'Welcome to 21\n Days On GRIT',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.openSans(
                     fontSize: 30.0,

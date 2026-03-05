@@ -8,10 +8,10 @@ class MainAppProvider with ChangeNotifier {
   ProfileData? _profileData;
   String? _strenght;
 
-  ProfileData get profileData => _profileData!;
+  ProfileData? get profileData => _profileData;
   String get strenght => _strenght!;
 
-  set profileData(ProfileData profileData) {
+  set profileData(ProfileData? profileData) {
     _profileData = profileData;
     notifyListeners();
   }
@@ -22,7 +22,7 @@ class MainAppProvider with ChangeNotifier {
   }
 
   Map<String, dynamic> toMap() => {
-        'profileData': profileData.toMap(),
+        'profileData': profileData?.toMap(),
         'strenght': strenght,
       };
 

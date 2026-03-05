@@ -4,6 +4,8 @@ import 'package:grit/theme/AppColors.theme.dart';
 const lightColors = AppColors(
   primary: Color(0xFFF14C14),
   onPrimary: Colors.white,
+  secondary: Color(0xFFEE8900),
+  onSecondary: Colors.white,
   background: Color(0xFFF6F6F6),
   surface: Colors.white,
   surfaceVariant: Color(0xFFE7E0EC),
@@ -17,6 +19,8 @@ const lightColors = AppColors(
 const darkColors = AppColors(
   primary: Color(0xFFD0BCFF),
   onPrimary: Color(0xFF381E72),
+  secondary: Color(0xFFEE8900),
+  onSecondary: Colors.white,
   background: Color(0xFF121212),
   surface: Color(0xFF1E1E1E),
   surfaceVariant: Color(0xFF2C2C2C),

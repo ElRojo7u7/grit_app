@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/main.dart';
-import 'package:grit/providers/RouteProvider.provider.dart';
+import 'package:grit/providers/AvatarOptions.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class SecondaryLayout extends StatefulWidget {
 class _SecondaryLayoutState extends State<SecondaryLayout> {
   @override
   Widget build(BuildContext context) {
-    final route = Provider.of<RouteProvider>(context);
+    final route = Provider.of<AvatarProvider>(context);
     final size = MediaQuery.of(context).size;
     final path = GoRouterState.of(context).uri.path;
     final viewData = routeData[path];
@@ -28,13 +28,11 @@ class _SecondaryLayoutState extends State<SecondaryLayout> {
           widget.child,
           Spacer(),
           ElevatedButton(
-            onPressed: () => route.nextButtonAvailable
-                ? context.go(viewData!.nextRoute)
-                : null,
+            onPressed: () =>
+                route.avatarSelected ? context.go(viewData!.nextRoute) : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: route.nextButtonAvailable
-                  ? context.colors.primary
-                  : Colors.grey,
+              backgroundColor:
+                  route.avatarSelected ? context.colors.primary : Colors.grey,
               shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(15.0), // Adjust the radius as needed

@@ -1,21 +1,29 @@
 import 'dart:convert';
 
 class ProfileData {
-  final String image;
-  final String name;
+  String image;
+  String name;
   int level;
+  int index = -1;
 
   Map<String, dynamic> toMap() =>
-      {'name': name, 'image': image, 'level': level};
+      {'name': name, 'image': image, 'level': level, 'index': index};
 
   factory ProfileData.fromMap(Map<String, dynamic> map) => ProfileData(
         name: map['name'],
         image: map['image'],
         level: map['level'],
+        index: map['index'],
       );
 
   factory ProfileData.fromJson(String source) =>
       ProfileData.fromMap(jsonDecode(source));
 
-  ProfileData({required this.image, required this.name, this.level = 0});
+  ProfileData({
+    required this.image,
+    required this.name,
+    required this.index,
+    this.level = 0,
+    // this.index = -1,
+  });
 }

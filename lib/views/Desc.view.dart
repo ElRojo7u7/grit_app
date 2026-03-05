@@ -15,7 +15,7 @@ class DescView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                '¿Que es grit?',
+                '¿Que es GRIT?',
                 style: GoogleFonts.openSans(
                   color: context.colors.primary,
                   fontSize: 50.0,
@@ -26,10 +26,10 @@ class DescView extends StatelessWidget {
               const SizedBox(height: 20.0),
               Text(
                 textAlign: TextAlign.justify,
-                '''Grit es un modelo creado por la psicóloga Angela Duckworth que explica el éxito a través del esfuerzo constante y la perseverancia.\n
+                '''GRIT es un modelo creado por la psicóloga Angela Duckworth que explica el éxito a través del esfuerzo constante y la perseverancia.\n
 “El esfuerzo cuenta el doble.”\n
 Personas como Michael Jordan, J.K. Rowling y Steve Jobs aplicaron este principio para alcanzar sus objetivos.\n
-En 21 Days on Grit, usarás este modelo para avanzar día a día, cumplir retos y construir tu objetivo durante 21 días mediante rachas e insignias para impulsarte.''',
+En 21 Days on GRIT, usarás este modelo para avanzar día a día, cumplir retos y construir tu objetivo durante 21 días mediante rachas e insignias para impulsarte.''',
                 style: GoogleFonts.openSans(fontSize: 15.0),
               ),
             ],

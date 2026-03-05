@@ -28,7 +28,7 @@ class StreakView extends StatelessWidget {
                 textAlign: TextAlign.justify,
                 '''Las rachas te ayudan a mantener tu progreso día con día.\n
 Cada vez que completas tu reto diario, tu racha continúa creciendo.\n
-En 21 Days on Grit, las rachas te acompañan durante 21 días y muestran tu constancia mientras avanzas hacia tu objetivo.
+En 21 Days on GRIT, las rachas te acompañan durante 21 días y muestran tu constancia mientras avanzas hacia tu objetivo.
 ''',
                 style: GoogleFonts.openSans(fontSize: 15.0),
               ),
