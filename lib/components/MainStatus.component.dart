@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/components/BodyView.component.dart';
 import 'package:grit/helpers/DateTime.helper.dart';
+import 'package:grit/helpers/phrases.helper.dart';
 import 'package:grit/providers/UserProfile.provider.dart';
 
 class MainStatusComponent extends ConsumerWidget {
@@ -203,7 +204,7 @@ class MainStatusComponent extends ConsumerWidget {
           Row(
             children: [
               Text(
-                'La constancia supera a la motivación.',
+                phrases[user.phraseIdx],
                 style: GoogleFonts.openSans(
                   color: const Color(0xFF5D0700),
                   fontSize: 16.0,
