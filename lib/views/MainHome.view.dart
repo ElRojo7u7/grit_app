@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/components/MainStatus.component.dart';
-import 'package:grit/providers/MainApp.provider.dart';
-import 'package:provider/provider.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 
-class MainHomeView extends StatefulWidget {
+class MainHomeView extends ConsumerWidget {
   const MainHomeView({super.key});
 
   @override
-  State<MainHomeView> createState() => _MainHomeViewState();
-}
-
-class _MainHomeViewState extends State<MainHomeView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final mainApp = Provider.of<MainAppProvider>(context);
+    final user = ref.watch(userProvNotifierProvider);
+    if (user == null)
+      throw UnimplementedError('No user data to show in this widget!!');
     return Column(
       children: [
         Row(
@@ -41,9 +38,7 @@ class _MainHomeViewState extends State<MainHomeView> {
                   ),
                   TextSpan(
                     text: ' Days on',
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                    ),
+                    style: GoogleFonts.openSans(color: Colors.black),
                   ),
                   TextSpan(
                     text: ' GRIT',
@@ -58,7 +53,7 @@ class _MainHomeViewState extends State<MainHomeView> {
             ),
             Spacer(),
             _getBar(size),
-            const SizedBox(width: 10.0)
+            const SizedBox(width: 10.0),
           ],
         ),
         Row(
@@ -74,12 +69,10 @@ class _MainHomeViewState extends State<MainHomeView> {
                 children: [
                   TextSpan(
                     text: 'Día',
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                    ),
+                    style: GoogleFonts.openSans(color: Colors.black),
                   ),
                   TextSpan(
-                    text: ' ${mainApp.profileData!.level}',
+                    text: ' ${user.level}',
                     style: GoogleFonts.openSans(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -87,9 +80,7 @@ class _MainHomeViewState extends State<MainHomeView> {
                   ),
                   TextSpan(
                     text: ' de ',
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                    ),
+                    style: GoogleFonts.openSans(color: Colors.black),
                   ),
                   TextSpan(
                     text: '21',
@@ -117,9 +108,7 @@ class _MainHomeViewState extends State<MainHomeView> {
                 children: [
                   TextSpan(
                     text: 'Activa la ',
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                    ),
+                    style: GoogleFonts.openSans(color: Colors.black),
                   ),
                   TextSpan(
                     text: 'racha',
@@ -146,27 +135,32 @@ class _MainHomeViewState extends State<MainHomeView> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
             ),
-            Container(
-              width: 150.0,
-              height: 20.0,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            TweenAnimationBuilder<double>(
+              tween: Tween(
+                begin: user.level != 0 ? (user.level - 1) * size.width / 21 : 0,
+                end: user.level * size.width / 21,
               ),
+              duration: Duration(milliseconds: 400),
+              builder: (context, width, child) {
+                return Container(
+                  width: width,
+                  height: 20.0,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  ),
+                );
+              },
             ),
           ],
         ),
         SizedBox(height: size.height / 64),
-        MainStatusComponent()
+        Expanded(child: MainStatusComponent()),
       ],
     );
   }
 
   Widget _getBar(Size size) {
-    return Container(
-      height: 3.0,
-      width: size.width * 0.12,
-      color: Colors.red,
-    );
+    return Container(height: 3.0, width: size.width * 0.10, color: Colors.red);
   }
 }

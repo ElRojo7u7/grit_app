@@ -15,6 +15,7 @@ class _TertiaryLayoutState extends State<TertiaryLayout> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(
@@ -25,7 +26,7 @@ class _TertiaryLayoutState extends State<TertiaryLayout> {
                 colors: [
                   context.colors.primary.withAlpha(230),
                   Colors.amber.withAlpha(178),
-                  Colors.white
+                  Colors.white,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

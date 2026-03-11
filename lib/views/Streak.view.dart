@@ -7,6 +7,7 @@ class StreakView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -18,19 +19,19 @@ class StreakView extends StatelessWidget {
                 'Rachas',
                 style: GoogleFonts.openSans(
                   color: context.colors.primary,
-                  fontSize: 50.0,
+                  fontSize: size.width / 10,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              const SizedBox(height: 20.0),
+              SizedBox(height: size.width / 20),
               Text(
                 textAlign: TextAlign.justify,
                 '''Las rachas te ayudan a mantener tu progreso día con día.\n
 Cada vez que completas tu reto diario, tu racha continúa creciendo.\n
 En 21 Days on GRIT, las rachas te acompañan durante 21 días y muestran tu constancia mientras avanzas hacia tu objetivo.
 ''',
-                style: GoogleFonts.openSans(fontSize: 15.0),
+                style: GoogleFonts.openSans(fontSize: size.width / 25),
               ),
             ],
           ),

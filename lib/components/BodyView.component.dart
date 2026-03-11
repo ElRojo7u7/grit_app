@@ -10,12 +10,19 @@ class BodyViewComponent extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 10.0),
-      padding: EdgeInsets.all(size.width / 20),
+      padding: EdgeInsets.only(
+        top: size.width / 20,
+        right: size.width / 20,
+        left: size.width / 20,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: child,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: child,
+      ),
     );
   }
 }

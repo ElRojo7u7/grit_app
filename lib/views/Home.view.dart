@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final user = ref.watch(userProvNotifierProvider);
     return Container(
       color: context.colors.background,
       width: 10,
@@ -22,15 +20,17 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () => context.push('/intro'),
+            onTap: () =>
+                user == null ? context.push('/intro') : context.push('/main'),
             child: Container(
               height: size.height * 0.8,
               width: size.width * 0.4,
               decoration: const BoxDecoration(
                 color: Colors.amber,
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                  topRight: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
               ),
               child: Column(
                 children: [
@@ -39,9 +39,7 @@ class _HomeViewState extends State<HomeView> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Image.asset(scale: 5.0, 'assets/images/LogoEscuela.png'),
-                      const SizedBox(
-                        width: 10.0,
-                      )
+                      const SizedBox(width: 10.0),
                     ],
                   ),
                   const Spacer(),
@@ -53,18 +51,15 @@ class _HomeViewState extends State<HomeView> {
                         'Iniciar',
                         style: GoogleFonts.interTight(
                           fontWeight: FontWeight.normal,
-                          fontSize: 25.0,
+                          fontSize: size.width / 16,
                         ),
                       ),
                       const SizedBox(width: 20.0),
-                      const Icon(
-                        Icons.add_reaction,
-                        size: 30.0,
-                      ),
+                      const Icon(Icons.add_reaction, size: 30.0),
                       const SizedBox(width: 20.0),
                     ],
                   ),
-                  const Spacer()
+                  const Spacer(),
                 ],
               ),
             ),
@@ -78,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
                   'Welcome to 21\n Days On GRIT',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.openSans(
-                    fontSize: 30.0,
+                    fontSize: size.width / 16,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
                   ),
@@ -86,13 +81,13 @@ class _HomeViewState extends State<HomeView> {
                 Text(
                   'by: Luisa, Johana & Mateo',
                   style: GoogleFonts.openSans(
-                    fontSize: 10.0,
+                    fontSize: size.width / 42,
                     fontStyle: FontStyle.italic,
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

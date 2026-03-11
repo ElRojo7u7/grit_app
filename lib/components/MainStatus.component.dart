@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/components/BodyView.component.dart';
-import 'package:grit/providers/MainApp.provider.dart';
-import 'package:provider/provider.dart';
+import 'package:grit/helpers/DateTime.helper.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 
-class MainStatusComponent extends StatefulWidget {
+class MainStatusComponent extends ConsumerWidget {
   const MainStatusComponent({super.key});
 
   @override
-  State<MainStatusComponent> createState() => _MainStatusComponentState();
-}
-
-class _MainStatusComponentState extends State<MainStatusComponent> {
-  @override
-  Widget build(BuildContext context) {
-    final mainApp = Provider.of<MainAppProvider>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final user = ref.watch(userProvNotifierProvider);
+    if (user == null)
+      throw UnimplementedError("No user data to show in this widget!!");
+    final userProv = ref.read(userProvNotifierProvider.notifier);
+    if (user.levelUpdate != null &&
+        getNow().difference(user.levelUpdate!).inDays == 2)
+      userProv.reset();
+    final markChecked = user.levelUpdate != getNow();
     return BodyViewComponent(
       child: Column(
         children: [
-          SizedBox(height: 20.0),
+          SizedBox(height: size.height / 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -59,35 +62,35 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(width: 15.0),
+              SizedBox(width: size.width / 20),
               Expanded(
-                child: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Escribe tu objetivo',
+                child: Text(
+                  user.goal ?? 'Configura un objetivo en tu perfil',
+                  style: GoogleFonts.openSans(
+                    fontWeight: FontWeight.bold,
+                    fontSize: size.width / 16,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 20.0),
+          SizedBox(height: size.height / 40),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => markChecked ? userProv.incrementLevel() : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
+              backgroundColor: markChecked ? Colors.amber : Colors.grey,
               padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
             ),
             child: Text(
               'MARCAR COMO HECHO',
               style: GoogleFonts.openSans(
-                color: Colors.black,
+                color: markChecked ? Colors.black : Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 18.0,
+                fontSize: size.width / 22,
               ),
             ),
           ),
-          const SizedBox(height: 30.0),
+          SizedBox(height: size.height / 32),
           Row(
             spacing: 35.0,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,18 +103,20 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                     SizedBox(
                       width: size.width * 0.13,
                       child: Image.asset(
-                          fit: BoxFit.contain, 'assets/images/task.jpeg'),
+                        fit: BoxFit.contain,
+                        'assets/images/task.jpeg',
+                      ),
                     ),
                     Text(
                       'Días\nCompletados',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.openSans(
                         fontWeight: FontWeight.w900,
-                        fontSize: size.width / 30,
+                        fontSize: size.width / 32,
                       ),
                     ),
                     Text(
-                      '${mainApp.profileData!.level == 0 ? 0 : mainApp.profileData!.level}',
+                      '${user.level == 0 ? 0 : user.level}',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.openSans(
                         fontWeight: FontWeight.w900,
@@ -136,11 +141,11 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: size.width / 30,
+                      fontSize: size.width / 32,
                     ),
                   ),
                   Text(
-                    '0',
+                    '${user.level ~/ 5 + user.rounds * 4}',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
@@ -165,11 +170,11 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
-                      fontSize: size.width / 30,
+                      fontSize: size.width / 32,
                     ),
                   ),
                   Text(
-                    '0',
+                    '${user.rounds}',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.w900,
@@ -181,7 +186,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
               ),
             ],
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(height: size.height / 40),
           Row(
             children: [
               Text(
@@ -194,7 +199,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
               ),
             ],
           ),
-          const SizedBox(height: 10.0),
+          SizedBox(height: size.height / 50),
           Row(
             children: [
               Text(
@@ -206,6 +211,7 @@ class _MainStatusComponentState extends State<MainStatusComponent> {
               ),
             ],
           ),
+          SizedBox(height: size.height / 50),
         ],
       ),
     );

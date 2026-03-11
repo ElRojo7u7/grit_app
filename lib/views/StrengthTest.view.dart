@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grit/providers/MainApp.provider.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
-import 'package:provider/provider.dart';
 
-class StrengthTestView extends StatelessWidget {
+class StrengthTestView extends ConsumerWidget {
   static const opts = [
     'Constancia',
     'Disciplina',
@@ -13,12 +13,12 @@ class StrengthTestView extends StatelessWidget {
     'Esfuerzo',
     'Organización',
     'Motivación',
-    'Compromiso'
+    'Compromiso',
   ];
   const StrengthTestView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -27,7 +27,7 @@ class StrengthTestView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Test de fortalezas',
+                'Test de habilidades',
                 style: GoogleFonts.openSans(
                   color: context.colors.primary,
                   fontSize: 40.0,
@@ -38,7 +38,7 @@ class StrengthTestView extends StatelessWidget {
               const SizedBox(height: 20.0),
               Text(
                 textAlign: TextAlign.center,
-                '¿Cuál de estas fortalezas va\n más contigo?',
+                '¿Cuál de estas habilidades va\n más contigo?',
                 style: GoogleFonts.openSans(fontSize: 20.0),
               ),
             ],
@@ -51,7 +51,9 @@ class StrengthTestView extends StatelessWidget {
             for (final (idx, item) in opts.indexed)
               GestureDetector(
                 onTap: () {
-                  context.read<MainAppProvider>().strenght = item;
+                  ref
+                      .read(userProvNotifierProvider.notifier)
+                      .updateStrength(item);
                   context.go('/main');
                 },
                 child: Container(
@@ -60,20 +62,23 @@ class StrengthTestView extends StatelessWidget {
                   color: idx == 2 || idx == 4
                       ? Colors.amber
                       : idx % 2 == 0
-                          ? context.colors.primary
-                          : Colors.white,
+                      ? context.colors.primary
+                      : Colors.white,
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          item,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.openSans(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        item,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.openSans(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
           ],
         ),
         const SizedBox(height: 40.0),

@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grit/providers/MainApp.provider.dart';
-import 'package:grit/providers/AvatarOptions.provider.dart';
+import 'package:grit/layouts/Secondary.layout.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
 import 'package:grit/widgets/CenteredGrid.widget.dart';
-import 'package:provider/provider.dart';
 import 'package:grit/helpers/profiles.helper.dart';
 
-class AvatarOptionsWidget extends StatefulWidget {
+class AvatarOptionsWidget extends ConsumerStatefulWidget {
   final double itemWidth;
   const AvatarOptionsWidget({super.key, this.itemWidth = 90});
 
   @override
-  State<AvatarOptionsWidget> createState() => _AvatarOptionsWidgetState();
+  ConsumerState<AvatarOptionsWidget> createState() =>
+      _AvatarOptionsWidgetState();
 }
 
-class _AvatarOptionsWidgetState extends State<AvatarOptionsWidget> {
+class _AvatarOptionsWidgetState extends ConsumerState<AvatarOptionsWidget> {
   int selected = -1;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AvatarProvider>().avatarSelected = false;
+      ref.read(layerNotifProvider.notifier).unavailable();
     });
-    selected = context.read<MainAppProvider>().profileData?.index ?? -1;
+    final user = ref.read(userProvNotifierProvider);
+    if (user != null) selected = user.index;
   }
 
   @override
   Widget build(BuildContext context) {
-    final mainApp = context.read<MainAppProvider>();
-
     return CenteredGrid(
       itemWidth: widget.itemWidth,
       maxItemsPerRow: 3,
@@ -39,8 +38,10 @@ class _AvatarOptionsWidgetState extends State<AvatarOptionsWidget> {
           GestureDetector(
             onTap: () => setState(() {
               selected = idx;
-              mainApp.profileData = item;
-              context.read<AvatarProvider>().avatarSelected = true;
+              ref
+                  .read(userProvNotifierProvider.notifier)
+                  .setDefaultProfile(idx);
+              ref.read(layerNotifProvider.notifier).available();
             }),
             child: Container(
               decoration: BoxDecoration(
@@ -62,11 +63,11 @@ class _AvatarOptionsWidgetState extends State<AvatarOptionsWidget> {
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
       ],
     );
   }

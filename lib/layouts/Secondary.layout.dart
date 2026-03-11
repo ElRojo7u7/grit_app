@@ -1,41 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/main.dart';
-import 'package:grit/providers/AvatarOptions.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
-import 'package:provider/provider.dart';
 
-class SecondaryLayout extends StatefulWidget {
+class SecondaryLayout extends ConsumerWidget {
   final Widget child;
   const SecondaryLayout({super.key, required this.child});
 
   @override
-  State<SecondaryLayout> createState() => _SecondaryLayoutState();
-}
-
-class _SecondaryLayoutState extends State<SecondaryLayout> {
-  @override
-  Widget build(BuildContext context) {
-    final route = Provider.of<AvatarProvider>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final path = GoRouterState.of(context).uri.path;
+    final available = ref.watch(layerNotifProvider);
     final viewData = routeData[path];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           SizedBox(height: 90.0),
-          widget.child,
+          child,
           Spacer(),
           ElevatedButton(
-            onPressed: () =>
-                route.avatarSelected ? context.go(viewData!.nextRoute) : null,
+            onPressed: () => available ? context.go(viewData!.nextRoute) : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  route.avatarSelected ? context.colors.primary : Colors.grey,
+              backgroundColor: available ? context.colors.primary : Colors.grey,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(15.0), // Adjust the radius as needed
+                borderRadius: BorderRadius.circular(
+                  15.0,
+                ), // Adjust the radius as needed
               ),
             ),
             child: Text(
@@ -64,15 +58,28 @@ class _SecondaryLayoutState extends State<SecondaryLayout> {
                     width: 20,
                     height: 20,
                     decoration: BoxDecoration(
-                        color: viewData!.idx == i ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(100.0))),
-                  )
+                      color: viewData!.idx == i ? Colors.black : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                    ),
+                  ),
               ],
             ),
           ),
-          const SizedBox(height: 50.0)
+          const SizedBox(height: 50.0),
         ],
       ),
     );
   }
 }
+
+class _RouteNotifier extends Notifier<bool> {
+  @override
+  bool build() => true;
+
+  void available() => state = true;
+  void unavailable() => state = false;
+}
+
+final layerNotifProvider = NotifierProvider<_RouteNotifier, bool>(
+  _RouteNotifier.new,
+);

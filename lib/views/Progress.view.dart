@@ -20,7 +20,7 @@ class ProgressView extends StatelessWidget {
           ),
         ),
         SizedBox(height: size.height / 32),
-        Expanded(child: ProgressBodyComponent())
+        Expanded(child: ProgressBodyComponent()),
       ],
     );
   }

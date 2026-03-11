@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grit/providers/MainApp.provider.dart';
-import 'package:provider/provider.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 
-class BottomNavigatorComponent extends StatelessWidget {
+class BottomNavigatorComponent extends ConsumerWidget {
   const BottomNavigatorComponent({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final mainApp = context.watch<MainAppProvider>();
+    final user = ref.watch(userProvNotifierProvider);
+    final currRoute = GoRouterState.of(context).uri.toString();
+    if (user == null)
+      throw UnimplementedError("No user data to show in this widget!!");
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -29,14 +32,15 @@ class BottomNavigatorComponent extends StatelessWidget {
           SizedBox(
             width: size.width * 0.13,
             child: GestureDetector(
-              onTap: () => context.push('/main/home'),
+              onTap: () =>
+                  currRoute == '/main/home' ? null : context.push('/main/home'),
               child: Column(
                 children: [
                   Image.asset(fit: BoxFit.fitWidth, 'assets/images/house.png'),
                   Text(
                     'Inicio',
-                    style: GoogleFonts.openSans(fontSize: 13.0),
-                  )
+                    style: GoogleFonts.openSans(fontSize: size.width / 32),
+                  ),
                 ],
               ),
             ),
@@ -44,11 +48,16 @@ class BottomNavigatorComponent extends StatelessWidget {
           SizedBox(
             width: size.width * 0.15,
             child: GestureDetector(
-              onTap: () => context.push('/main/progress'),
+              onTap: () => currRoute == '/main/progress'
+                  ? null
+                  : context.push('/main/progress'),
               child: Column(
                 children: [
                   Image.asset(fit: BoxFit.cover, 'assets/images/progress.webp'),
-                  Text('Progreso', style: GoogleFonts.openSans(fontSize: 13.0))
+                  Text(
+                    'Progreso',
+                    style: GoogleFonts.openSans(fontSize: size.width / 32),
+                  ),
                 ],
               ),
             ),
@@ -56,11 +65,16 @@ class BottomNavigatorComponent extends StatelessWidget {
           SizedBox(
             width: size.width * 0.13,
             child: GestureDetector(
-              onTap: () => context.push('/main/profile'),
+              onTap: () => currRoute == '/main/profile'
+                  ? null
+                  : context.push('/main/profile'),
               child: Column(
                 children: [
-                  Image.asset(fit: BoxFit.cover, mainApp.profileData!.image),
-                  Text('Perfil', style: GoogleFonts.openSans(fontSize: 13.0))
+                  Image.asset(fit: BoxFit.cover, user.image),
+                  Text(
+                    'Perfil',
+                    style: GoogleFonts.openSans(fontSize: size.width / 32),
+                  ),
                 ],
               ),
             ),

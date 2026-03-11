@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grit/components/ProfileSetup.component.dart';
-import 'package:grit/providers/MainApp.provider.dart';
+import 'package:grit/providers/UserProfile.provider.dart';
 import 'package:grit/theme/theme_extension.theme.dart';
-import 'package:provider/provider.dart';
 
-class ProfileSetupView extends StatefulWidget {
+class ProfileSetupView extends ConsumerWidget {
   const ProfileSetupView({super.key});
 
   @override
-  State<ProfileSetupView> createState() => _ProfileSetupViewState();
-}
-
-class _ProfileSetupViewState extends State<ProfileSetupView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final mainApp = context.watch<MainAppProvider>();
+    final user = ref.watch(userProvNotifierProvider);
+    if (user == null)
+      throw UnimplementedError("No user to show in this widget!!");
     return Column(
       children: [
         Container(
@@ -42,13 +39,11 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
               Text(
                 'Mi Perfil',
                 style: GoogleFonts.openSans(
-                    fontSize: 22.0, fontWeight: FontWeight.bold),
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              Icon(
-                Icons.check_circle,
-                size: 30.0,
-                color: Colors.white,
-              ),
+              Icon(Icons.check_circle, size: 30.0, color: Colors.white),
             ],
           ),
         ),
@@ -67,14 +62,16 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                     children: [
                       SizedBox(
                         width: constraints.maxWidth * 0.35,
-                        child: Image.asset(mainApp.profileData!.image),
+                        child: Image.asset(user.image),
                       ),
                       Text(
-                        mainApp.profileData!.name,
+                        user.name,
                         style: GoogleFonts.openSans(
                           fontSize: constraints.maxHeight / 40,
                           fontWeight: FontWeight.bold,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -82,7 +79,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }

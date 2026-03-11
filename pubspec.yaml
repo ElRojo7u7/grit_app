@@ -4,20 +4,30 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.8.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   go_router: ^17.1.0
   google_fonts: ^8.0.2
-  provider: ^6.1.5+1
   shared_preferences: ^2.5.4
+  flutter_local_notifications: ^17.0.0
+  timezone: ^0.9.0
+  flutter_timezone: ^5.0.1
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.11.0
+  flutter_riverpod: ^3.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.12.2
+  freezed: ^3.2.5
+  json_serializable: ^6.13.0
+  flutter_launcher_icons: ^0.14.4
+
 
 flutter:
   uses-material-design: true
